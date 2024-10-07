@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 
 const Registration = () => {
   const dispatch = useDispatch();
+  const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -13,9 +14,10 @@ const Registration = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (password === repeatPassword) {
-      const newUser = { email, password };
+      const newUser = { name,email, password };
       dispatch(register(newUser));
       // Clear the form
+      setName('');
       setEmail('');
       setPassword('');
       setRepeatPassword('');
@@ -59,7 +61,7 @@ const Registration = () => {
                   <img src="assets/images/logo.svg" alt="Image" className="_right_logo" />
                 </div>
                 <p className="_social_registration_content_para _mar_b8">Get Started Now</p>
-                <h4 className="_social_registration_content_title _titl4 _mar_b50">Registration</h4>
+                {/* <h4 className="_social_registration_content_title _titl4 _mar_b50">Registration</h4> */}
 
                 <button type="button" className="_social_registration_content_btn _mar_b40">
                   <img src="assets/images/google.svg" alt="Image" className="_google_img" />
@@ -72,6 +74,14 @@ const Registration = () => {
 
                 <form className="_social_registration_form" onSubmit={handleSubmit}>
                   <div className="row">
+
+                  <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                      <div className="_social_registration_form_input _mar_b14">
+                        <label className="_social_registration_label _mar_b8">Full Name</label>
+                        <input type="text" className="form-control _social_registration_input" value={name} onChange={(e) => setName(e.target.value)} required />
+                      </div>
+                    </div>
+
                     <div className="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                       <div className="_social_registration_form_input _mar_b14">
                         <label className="_social_registration_label _mar_b8">Email</label>
