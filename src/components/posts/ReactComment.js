@@ -55,10 +55,12 @@ const FeedInnerTimelineTotalReacts = ({post}) => {
   );
 };
 
-const FeedInnerTimelineReaction = ({handleShowComment,postId,userId}) => {
+const FeedInnerTimelineReaction = ({handleShowComment,postId,userId,likes}) => {
    const dispatch= useDispatch();
-   console.log(postId,userId);
-   
+
+   const isLiked = likes.indexOf(userId);
+  // console.log(postId,userId,isLiked);
+
    function handleReact(){
           dispatch(likePost({postId,userId}));
    }
@@ -69,7 +71,8 @@ const FeedInnerTimelineReaction = ({handleShowComment,postId,userId}) => {
         <span className="_feed_inner_timeline_reaction_link ">
           <span
           >
-          <AiFillLike style={{ marginRight: ".5rem",fontSize: '1.5rem', color: '#3b82f6' }} />
+           
+          <AiFillLike style={{ marginRight: ".5rem",fontSize: '1.5rem', color: `${isLiked > -1 ? '#3b82f6' : 'black'}` }} />
             React
           </span>
         </span>

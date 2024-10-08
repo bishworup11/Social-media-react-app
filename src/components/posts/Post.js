@@ -6,11 +6,12 @@ import { useSelector } from "react-redux";
 
 export default function Post({ ...props }) {
   const [isShowComment, setIsShowComment] = useState(false);
-  const { userId } = useSelector((state) => state.auth.currentUser);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   function handleShowComment() {
     setIsShowComment(!isShowComment);
   }
 
+  //console.log(userId);
  
   return (
     <div className="_feed_inner_timeline_post_area _b_radious6 _padd_b24 _padd_t24 _mar_b16 text-left">
@@ -25,10 +26,17 @@ export default function Post({ ...props }) {
         <FeedInnerTimelineReaction
           handleShowComment={handleShowComment}
           postId={props.post.postId}
-          userId={userId}
+          userId={currentUser.userId}
+          likes={props.post.likes}
           />
       </ReactComment>
-      {isShowComment?<CommentSection /> :null}
+      {isShowComment?
+      <CommentSection
+        currentUser={currentUser}
+        comments={props.post.comments}
+        postId={props.post.postId}
+      /> 
+      :null}
     
     </div>
   );

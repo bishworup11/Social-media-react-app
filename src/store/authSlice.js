@@ -99,13 +99,14 @@ const authSlice = createSlice({
     },
 
     addComment: (state, action) => {
-      const { postId, userId, text } = action.payload;
+      const { userId,postId, commentText } = action.payload;
       const post = state.posts.find(post => post.postId === postId);
       if (post) {
         const newComment = {
           commentId: Date.now(),
           userId,
-          text,
+          commentText,
+          likes: [],
           replies: [],
         };
         post.comments.push(newComment);
@@ -113,8 +114,22 @@ const authSlice = createSlice({
       }
     },
 
+    likeComment: (state, action) => {
+      const { commentId,postId, userId } = action.payload;
+      const post = state.posts.find(post => post.postId === postId);
+      const comment = post.comments.find(comment => comment.commentId === commentId);
+      if (comment) {
+        const alreadyLiked = comment.likes.includes(userId);
+        if (!alreadyLiked) {
+          comment.likes.push(userId); // like
+        } else {
+          comment.likes = comment.likes.filter(id => id !== userId); // toggole like
+        }
+        localStorage.setItem('posts', JSON.stringify(state.posts));
+      }
+    },
     addReply: (state, action) => {
-      const { postId, commentId, userId, text } = action.payload;
+      const { postId, commentId, userId, replyText } = action.payload;
       const post = state.posts.find(post => post.postId === postId);
       if (post) {
         const comment = post.comments.find(comment => comment.commentId === commentId);
@@ -122,7 +137,7 @@ const authSlice = createSlice({
           const newReply = {
             replyId: Date.now(),
             userId,
-            text,
+            replyText,
           };
           comment.replies.push(newReply);
           localStorage.setItem('posts', JSON.stringify(state.posts));
@@ -147,6 +162,7 @@ export const {   register,
   addPost,
   likePost,
   addComment,
+  likeComment,
   addReply,
   loadPosts, } = authSlice.actions;
 export default authSlice.reducer;
