@@ -4,15 +4,16 @@ import { logout } from "../store/authSlice";
 
 const Navbar = ({darkMode,setDarkMode}) => {
   const [isDropShow, setIsDropShow] = useState(false);
-
+  const profilePicture = useSelector((state) => state.auth.currentUser.profilePicture);
+  //console.log(profilePicture);
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
   };
 
   const toggleDropdown = () => {
-    console.log("Dropdown toggled");
-    console.log(isDropShow);
+   // console.log("Dropdown toggled");
+    //console.log(isDropShow);
     setIsDropShow(!isDropShow);
   };
 
@@ -210,9 +211,11 @@ const Navbar = ({darkMode,setDarkMode}) => {
             <div className="_header_nav_profile">
               <div className="_header_nav_profile_image">
                 <img
-                  src="assets/images/profile.png"
+                  // src="assets/images/profile.png"
+                  src={profilePicture}
                   alt="Image"
                   className="_nav_profile_img"
+                  // style={{borderRadius: "40%"}}
                 />
               </div>
               <div className="_header_nav_dropdown">
@@ -239,7 +242,7 @@ const Navbar = ({darkMode,setDarkMode}) => {
               </div>
               {/* dropdown */}
               {
-                isDropShow?  <Dropdown/>:null
+                isDropShow?  <Dropdown profilePicture={profilePicture}/>:null
               }
              
               
@@ -255,16 +258,18 @@ export default Navbar;
 
 
 
- function Dropdown() {
+ function Dropdown({profilePicture}) {
   const dispatch=useDispatch();
   return (
         <div id="_prfoile_drop" className="_nav_profile_dropdown show">
                 <div className="_nav_profile_dropdown_info">
                   <div className="_nav_profile_dropdown_image">
                     <img
-                      src="assets/images/profile.png"
+                      // src="assets/images/profile.png"
+                      src={profilePicture}
                       alt="Image"
                       className="_nav_drop_img"
+                      
                     />
                   </div>
                   <div className="_nav_profile_dropdown_info_txt">

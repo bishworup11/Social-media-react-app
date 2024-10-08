@@ -1,19 +1,18 @@
 import React from "react";
-
-export default function ReactComment() {
-  return (
-    <>
-      <FeedInnerTimelineTotalReacts />
-      <FeedInnerTimelineReaction />
-    </>
-  );
+import { AiFillLike } from "react-icons/ai";
+import { useDispatch } from "react-redux";
+import { likePost } from "../../store/authSlice";
+export default function ReactComment({ children }) {
+  return <>{children}</>;
 }
 
-const FeedInnerTimelineTotalReacts = () => {
+const FeedInnerTimelineTotalReacts = ({post}) => {
+  //console.log(post);
   return (
     <div className="_feed_inner_timeline_total_reacts _padd_r24 _padd_l24 _mar_b26 text-left">
-      <div className="_feed_inner_timeline_total_reacts_image">
-        <img
+        
+      <div className="_feed_inner_timeline_total_reacts_image" >
+        {/* <img
           src="assets/images/react_img1.png"
           alt="Image"
           className="_react_img1"
@@ -38,11 +37,15 @@ const FeedInnerTimelineTotalReacts = () => {
           alt="Image"
           className="_react_img _rect_img_mbl_none"
         />
-        <p className="_feed_inner_timeline_total_reacts_para">9+</p>
+        <p className="_feed_inner_timeline_total_reacts_para">9+</p> */}
+        <AiFillLike style={{ fontSize: '1.5rem', color: '#3b82f6' }}
+ />
+        <p style={{fontSize: "1.2rem" , marginLeft:".5rem"}}>{post.likes.length} {post.likes.length > 1 ? "likes" : "like"}</p>
+
       </div>
       <div className="_feed_inner_timeline_total_reacts_txt">
-        <p className="_feed_inner_timeline_total_reacts_para1">
-          <span>12</span> Comment
+        <p className="_feed_inner_timeline_total_reacts_para1" >
+          <span>{post.comments.length}</span> {post.comments.length > 1 ? 'Comments' : 'Comment'}
         </p>
         <p className="_feed_inner_timeline_total_reacts_para2">
           <span>122</span> Share
@@ -52,43 +55,30 @@ const FeedInnerTimelineTotalReacts = () => {
   );
 };
 
-const FeedInnerTimelineReaction = () => {
+const FeedInnerTimelineReaction = ({handleShowComment,postId,userId}) => {
+   const dispatch= useDispatch();
+   console.log(postId,userId);
+   
+   function handleReact(){
+          dispatch(likePost({postId,userId}));
+   }
+
   return (
     <div className="_feed_inner_timeline_reaction">
-      <button className="_feed_inner_timeline_reaction_emoji _feed_reaction _feed_reaction_active">
-        <span className="_feed_inner_timeline_reaction_link">
-          <span>
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="19"
-              height="19"
-              fill="none"
-              viewBox="0 0 19 19"
-            >
-              <path
-                fill="#FFCC4D"
-                d="M9.5 19a9.5 9.5 0 100-19 9.5 9.5 0 000 19z"
-              ></path>
-              <path
-                fill="#664500"
-                d="M9.5 11.083c-1.912 0-3.181-.222-4.75-.527-.358-.07-1.056 0-1.056 1.055 0 2.111 2.425 4.75 5.806 4.75 3.38 0 5.805-2.639 5.805-4.75 0-1.055-.697-1.125-1.055-1.055-1.57.305-2.838.527-4.75.527z"
-              ></path>
-              <path
-                fill="#fff"
-                d="M4.75 11.611s1.583.528 4.75.528 4.75-.528 4.75-.528-1.056 2.111-4.75 2.111-4.75-2.11-4.75-2.11z"
-              ></path>
-              <path
-                fill="#664500"
-                d="M6.333 8.972c.729 0 1.32-.827 1.32-1.847s-.591-1.847-1.32-1.847c-.729 0-1.32.827-1.32 1.847s.591 1.847 1.32 1.847zM12.667 8.972c.729 0 1.32-.827 1.32-1.847s-.591-1.847-1.32-1.847c-.729 0-1.32.827-1.32 1.847s.591 1.847 1.32 1.847z"
-              ></path>
-            </svg>
+      <button className="_feed_inner_timeline_reaction_comment _feed_reaction" onClick={()=>handleReact()}>
+        <span className="_feed_inner_timeline_reaction_link ">
+          <span
+          >
+          <AiFillLike style={{ marginRight: ".5rem",fontSize: '1.5rem', color: '#3b82f6' }} />
             React
           </span>
         </span>
       </button>
-      <button className="_feed_inner_timeline_reaction_comment _feed_reaction">
+      <button className="_feed_inner_timeline_reaction_comment _feed_reaction"
+        onClick={()=>{handleShowComment()}}
+       >
         <span className="_feed_inner_timeline_reaction_link">
-          <span>
+          <span >
             <svg
               className="_reaction_svg"
               xmlns="http://www.w3.org/2000/svg"
@@ -114,7 +104,7 @@ const FeedInnerTimelineReaction = () => {
       </button>
       <button className="_feed_inner_timeline_reaction_share _feed_reaction">
         <span className="_feed_inner_timeline_reaction_link">
-          <span>
+          <span className="flex flex-row gap-1">
             <svg
               className="_reaction_svg"
               xmlns="http://www.w3.org/2000/svg"
@@ -136,3 +126,5 @@ const FeedInnerTimelineReaction = () => {
     </div>
   );
 };
+
+export {FeedInnerTimelineReaction,FeedInnerTimelineTotalReacts};

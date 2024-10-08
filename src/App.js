@@ -17,7 +17,7 @@ function App() {
   // console.log(darkMode);
 
   const auth = useSelector((state) => state.auth.currentUser);
-  // console.log(auth);
+  //console.log(auth);
 
   return (
     <Router>

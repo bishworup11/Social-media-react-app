@@ -2,7 +2,10 @@ import React from "react";
 
 const TimelinePost = ({post}) => {
     const [show, setShow] = React.useState(false);
-    console.log(post);
+   // console.log(post);
+    const time=Date.now();
+    let timeInerval=Math.round((time-post.postId)/(1000*60));
+   // console.log(timeInerval);
 
   return (
     <div className="_feed_inner_timeline_content _padd_r24 _padd_l24 ">
@@ -18,14 +21,14 @@ const TimelinePost = ({post}) => {
           <div className="_feed_inner_timeline_post_box_txt" style={{textAlign: "left"}}>
             <h4 className="_feed_inner_timeline_post_box_title">{post.userName}</h4>
             <p className="_feed_inner_timeline_post_box_para">
-              5 minute ago . <a href="#0">Public</a>
+              {timeInerval} minute ago . <a href="/">Public</a>
             </p>
           </div>
         </div>
         <div className="_feed_inner_timeline_post_box_dropdown">
           <div className="_feed_timeline_post_dropdown">
             <button
-              href="#0"
+              href="/"
               id="_timeline_show_drop_btn"
               className="_feed_timeline_post_dropdown_link"
               onClick={() => setShow(!show)}
@@ -44,7 +47,7 @@ const TimelinePost = ({post}) => {
               </svg>
             </button>
           </div>
-          {/* Dropdown */}
+          {/*  there dropdown conditional rendaring */}
           {
             show? <Dropdown/>:null
           }

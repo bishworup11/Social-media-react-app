@@ -10,8 +10,8 @@ import {loadUsers } from '../store/authSlice';
 
 export default function Feed() {
   const dispatch = useDispatch();
-   const posts = useSelector((state)=>state.auth.posts);
-   console.log(posts);
+  const posts = useSelector((state) => state.auth.posts);
+  const sortedPosts = [...posts].sort((a, b) => b.postId - a.postId);
   useEffect(() => {
     dispatch(loadUsers());
    
@@ -30,7 +30,8 @@ export default function Feed() {
                 <FeedComponent/>
                
                 {
-                  posts.map((post)=>{
+                  sortedPosts.map((post)=>{
+                    if(post.isShow)
                     return <Post key={post.id} post={post} />
                   })
                 }

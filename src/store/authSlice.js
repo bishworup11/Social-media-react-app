@@ -1,6 +1,17 @@
 
 import { createSlice } from '@reduxjs/toolkit';
 
+// const profilePictures=["assets/images/f1.png", 
+//   "assets/images/f2.png", 
+//   "assets/images/f3.png", 
+//   "assets/images/f4.png", 
+//   "assets/images/f5.png", 
+//   "assets/images/f6.png", 
+//   "assets/images/f7.png", 
+//   "assets/images/f8.png", 
+//   "assets/images/f9.png"];
+
+
 const initialState = {
   currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
   users: JSON.parse(localStorage.getItem('users')) || [],
@@ -18,8 +29,15 @@ const authSlice = createSlice({
         alert('User already exists');
       }
       else {
-        state.users.push(action.payload);
+        //const pic=`assets/images/img${Math.floor(Math.random() * 18) + 1}.png`;
+        const newUser = {
+          userId: Date.now(),
+          profilePicture: `assets/images/img${Math.floor(Math.random() * 18) + 1}.png`,
+          ...action.payload,
+        };
+        state.users.push(newUser);
         localStorage.setItem('users', JSON.stringify(state.users));
+        alert('User registered successfully');
       }
       
     },
@@ -53,11 +71,12 @@ const authSlice = createSlice({
         state.posts = posts;
       }
     },
-     // Post-related reducers
+     // post reducers
      addPost: (state, action) => {
       const newPost = {
         ...action.payload,
-        id: Date.now(),
+        postId: Date.now(),
+        isShow:true,
         likes: [],
         comments: []
       };
@@ -67,13 +86,13 @@ const authSlice = createSlice({
 
     likePost: (state, action) => {
       const { postId, userId } = action.payload;
-      const post = state.posts.find(post => post.id === postId);
+      const post = state.posts.find(post => post.postId === postId);
       if (post) {
         const alreadyLiked = post.likes.includes(userId);
         if (!alreadyLiked) {
-          post.likes.push(userId);
+          post.likes.push(userId); // like
         } else {
-          post.likes = post.likes.filter(id => id !== userId); // Unlike if already liked
+          post.likes = post.likes.filter(id => id !== userId); // toggole like
         }
         localStorage.setItem('posts', JSON.stringify(state.posts));
       }
@@ -81,10 +100,10 @@ const authSlice = createSlice({
 
     addComment: (state, action) => {
       const { postId, userId, text } = action.payload;
-      const post = state.posts.find(post => post.id === postId);
+      const post = state.posts.find(post => post.postId === postId);
       if (post) {
         const newComment = {
-          id: Date.now(),
+          commentId: Date.now(),
           userId,
           text,
           replies: [],
@@ -96,12 +115,12 @@ const authSlice = createSlice({
 
     addReply: (state, action) => {
       const { postId, commentId, userId, text } = action.payload;
-      const post = state.posts.find(post => post.id === postId);
+      const post = state.posts.find(post => post.postId === postId);
       if (post) {
-        const comment = post.comments.find(comment => comment.id === commentId);
+        const comment = post.comments.find(comment => comment.commentId === commentId);
         if (comment) {
           const newReply = {
-            id: Date.now(),
+            replyId: Date.now(),
             userId,
             text,
           };
