@@ -281,6 +281,7 @@ function Reply({ reply, currentUser, commentId, postId }) {
   const replyUser = users.find((user) => user.userId === reply.userId);
   const dispatch = useDispatch();
   const isLiked = reply.likes.includes(currentUser.userId);
+  let time=Math.round((Date.now()-reply.replyId)/(1000*60));
   function handleReplyLike() {
     dispatch(
       likeReply({
@@ -352,7 +353,7 @@ function Reply({ reply, currentUser, commentId, postId }) {
                     <span>Reply.</span>
                   </li>
                   <li>
-                    <span className="_time_link">.21m</span>
+                    <span className="_time_link">{time}{time>1?"mins":"min"}</span>
                   </li>
                 </ul>
               </div>

@@ -1,87 +1,128 @@
 import React from "react";
 import { AiFillLike } from "react-icons/ai";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { likePost } from "../../store/authSlice";
+import { useState } from "react";
 export default function ReactComment({ children }) {
   return <>{children}</>;
 }
 
-const FeedInnerTimelineTotalReacts = ({post}) => {
-  //console.log(post);
+const FeedInnerTimelineTotalReacts = ({ post }) => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const users = useSelector((state) => state.auth.users);
+
+  const openModal = () => {
+    if(post.likes.length > 0) 
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleClickOutside = (e) => {
+    if (e.target.className === "modal-overlay") {
+      closeModal();
+    }
+  };
+
   return (
     <div className="_feed_inner_timeline_total_reacts _padd_r24 _padd_l24 _mar_b26 text-left">
-        
-      <div className="_feed_inner_timeline_total_reacts_image" >
-        {/* <img
-          src="assets/images/react_img1.png"
-          alt="Image"
-          className="_react_img1"
-        />
-        <img
-          src="assets/images/react_img2.png"
-          alt="Image"
-          className="_react_img"
-        />
-        <img
-          src="assets/images/react_img3.png"
-          alt="Image"
-          className="_react_img _rect_img_mbl_none"
-        />
-        <img
-          src="assets/images/react_img4.png"
-          alt="Image"
-          className="_react_img _rect_img_mbl_none"
-        />
-        <img
-          src="assets/images/react_img5.png"
-          alt="Image"
-          className="_react_img _rect_img_mbl_none"
-        />
-        <p className="_feed_inner_timeline_total_reacts_para">9+</p> */}
-        <AiFillLike style={{ fontSize: '1.5rem', color: '#3b82f6' }}
- />
-        <p style={{fontSize: "1.2rem" , marginLeft:".5rem"}}>{post.likes.length} {post.likes.length > 1 ? "likes" : "like"}</p>
-
+      <div
+        className="_feed_inner_timeline_total_reacts_image"
+        onClick={openModal}
+      >
+        <AiFillLike style={{ fontSize: "1.5rem", color: "#3b82f6" }} />
+        <p style={{ fontSize: "1.2rem", marginLeft: ".5rem" }}>
+          {post.likes.length} {post.likes.length > 1 ? "likes" : "like"}
+        </p>
       </div>
       <div className="_feed_inner_timeline_total_reacts_txt">
-        <p className="_feed_inner_timeline_total_reacts_para1" >
-          <span>{post.comments.length}</span> {post.comments.length > 1 ? 'Comments' : 'Comment'}
+        <p className="_feed_inner_timeline_total_reacts_para1">
+          <span>{post.comments.length}</span>{" "}
+          {post.comments.length > 1 ? "Comments" : "Comment"}
         </p>
         <p className="_feed_inner_timeline_total_reacts_para2">
-          <span>122</span> Share
+          <span>122</span> Shares
         </p>
       </div>
+
+      {isModalOpen &&  (
+        <div className="modal-overlay" onClick={handleClickOutside}>
+          <div className="modal-content">
+            <button className="close-button" onClick={closeModal} >
+              X
+            </button>
+            <h3>Users who liked this post:</h3>
+            <ul>
+              {post.likes.map((id, index) => {
+                const tempUser = users.find((user) => user.userId === id);
+                console.log(users,id);
+                return <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
+                <img
+                  src={tempUser?.profilePicture}
+                  style={{
+                    width: "30px",
+                    height: "30px",
+                    borderRadius: "50%",
+                    marginRight: "8px", // Space between the image and the text
+                  }}
+                  alt="profile picture"
+                />
+                {tempUser?.name}
+              </li>
+              
+              })}
+            </ul>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
 
-const FeedInnerTimelineReaction = ({handleShowComment,postId,userId,likes}) => {
-   const dispatch= useDispatch();
+const FeedInnerTimelineReaction = ({
+  handleShowComment,
+  postId,
+  userId,
+  likes,
+}) => {
+  const dispatch = useDispatch();
 
-   const isLiked = likes.indexOf(userId);
+  const isLiked = likes.indexOf(userId);
   // console.log(postId,userId,isLiked);
 
-   function handleReact(){
-          dispatch(likePost({postId,userId}));
-   }
+  function handleReact() {
+    dispatch(likePost({ postId, userId }));
+  }
 
   return (
     <div className="_feed_inner_timeline_reaction">
-      <button className="_feed_inner_timeline_reaction_comment _feed_reaction" onClick={()=>handleReact()}>
+      <button
+        className="_feed_inner_timeline_reaction_comment _feed_reaction"
+        onClick={() => handleReact()}
+      >
         <span className="_feed_inner_timeline_reaction_link ">
-          <span
-          >
-           
-          <AiFillLike style={{ marginRight: ".5rem",fontSize: '1.5rem', color: `${isLiked > -1 ? '#3b82f6' : 'black'}` }} />
+          <span>
+            <AiFillLike
+              style={{
+                marginRight: ".5rem",
+                fontSize: "1.5rem",
+                color: `${isLiked > -1 ? "#3b82f6" : "black"}`,
+              }}
+            />
             React
           </span>
         </span>
       </button>
-      <button className="_feed_inner_timeline_reaction_comment _feed_reaction"
-        onClick={()=>{handleShowComment()}}
-       >
+      <button
+        className="_feed_inner_timeline_reaction_comment _feed_reaction"
+        onClick={() => {
+          handleShowComment();
+        }}
+      >
         <span className="_feed_inner_timeline_reaction_link">
-          <span >
+          <span>
             <svg
               className="_reaction_svg"
               xmlns="http://www.w3.org/2000/svg"
@@ -130,4 +171,4 @@ const FeedInnerTimelineReaction = ({handleShowComment,postId,userId,likes}) => {
   );
 };
 
-export {FeedInnerTimelineReaction,FeedInnerTimelineTotalReacts};
+export { FeedInnerTimelineReaction, FeedInnerTimelineTotalReacts };

@@ -272,7 +272,7 @@ export default Navbar;
                       
                     />
                   </div>
-                  <div className="_nav_profile_dropdown_info_txt">
+                  <div className="_nav_profile_dropdown_info_txt" style={{textAlign:"left"}}>
                     <h4 className="_nav_dropdown_title">{currentUser.name}</h4>
                     <a href="/" className="_nav_drop_profile">
                       View Profile

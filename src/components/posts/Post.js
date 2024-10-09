@@ -8,7 +8,7 @@ import CommentSection from "./CommentSection";
 import { useSelector } from "react-redux";
 
 export default function Post({ ...props }) {
-  const [isShowComment, setIsShowComment] = useState(false);
+  const [isShowComment, setIsShowComment] = useState(true);
   const currentUser = useSelector((state) => state.auth.currentUser);
   function handleShowComment() {
     setIsShowComment(!isShowComment);

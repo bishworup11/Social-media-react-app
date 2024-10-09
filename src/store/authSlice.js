@@ -26,7 +26,7 @@ const authSlice = createSlice({
     register: (state, action) => {
       const user = state.users.find(user => user.email === action.payload.email);
       if (user) {
-        alert('User already exists');
+        alert('Already used this Mail, Please use different mail');
       }
       else {
         //const pic=`assets/images/img${Math.floor(Math.random() * 18) + 1}.png`;

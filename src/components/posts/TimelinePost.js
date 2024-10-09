@@ -4,7 +4,7 @@ import { hidePost, deletePost,editPost } from "../../store/authSlice";
 const TimelinePost = ({ post, userId }) => {
   const [show, setShow] = React.useState(false);
   const time = Date.now();
-  let timeInerval = Math.round((time - post.postId) / (1000 * 60));
+  let timeInterval = Math.round((time - post.postId) / (1000 * 60));
   const users = useSelector((state) => state.auth.users);
   const postUser = users.find((user) => user.userId === post.userId);
   const [isEdit, setIsEdit] = React.useState(false);
@@ -42,7 +42,8 @@ const TimelinePost = ({ post, userId }) => {
               {post.userName}
             </h4>
             <p className="_feed_inner_timeline_post_box_para">
-              {timeInerval} minute ago .{" "}
+            {timeInterval === 0 ? "Just now " : `${timeInterval} ${timeInterval > 1 ? "minutes" : "minute"} ago `}
+
               <a href="/">{post.isShow ? "Public" : "Private"}</a>
             </p>
           </div>
@@ -80,9 +81,9 @@ const TimelinePost = ({ post, userId }) => {
         </div>
       </div>
       {isEdit ? (
-        <input
-          className="_feed_inner_timeline_post_title"
-          style={{ textAlign: "left", marginLeft: "-0.2rem", width: "95%" }}
+        <textarea
+           className="form-control _comment_textarea"
+          style={{ textAlign: "left", marginLeft: "-0.2rem", width: "95%",backgroundColor: "rgba(0, 0, 0, 0.1)", marginBottom: "0.5rem" }}
           type="text"
           value={editText}
           onChange={(e) => setEditText(e.target.value)}
@@ -107,7 +108,6 @@ const TimelinePost = ({ post, userId }) => {
     </div>
   );
 };
-
 export default TimelinePost;
 
 function Dropdown({ post, userId, handleShow, handleEditShow }) {
@@ -197,7 +197,7 @@ function Dropdown({ post, userId, handleShow, handleEditShow }) {
                     />
                   </svg>
                 </span>
-                {post.isShow ? "Hide Post" : "show Post"}
+                {post.isShow ? "Hide Post" : "Unhide Post"}
               </a>
             </li>
             <li
