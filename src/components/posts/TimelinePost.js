@@ -1,11 +1,14 @@
 import React from "react";
-
+import { useSelector } from "react-redux";
 const TimelinePost = ({post}) => {
     const [show, setShow] = React.useState(false);
-   // console.log(post);
     const time=Date.now();
     let timeInerval=Math.round((time-post.postId)/(1000*60));
    // console.log(timeInerval);
+    const users = useSelector((state) => state.auth.users);
+    //console.log(users);
+    const postUser = users.find((user) => user.userId === post.userId);
+   // console.log(postUser);
 
   return (
     <div className="_feed_inner_timeline_content _padd_r24 _padd_l24 ">
@@ -13,7 +16,7 @@ const TimelinePost = ({post}) => {
         <div className="_feed_inner_timeline_post_box">
           <div className="_feed_inner_timeline_post_box_image">
             <img
-              src="assets/images/post_img.png"
+              src={postUser?.profilePicture}
               alt=""
               className="_post_img"
             />

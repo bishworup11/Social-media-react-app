@@ -138,6 +138,7 @@ const authSlice = createSlice({
             replyId: Date.now(),
             userId,
             replyText,
+            likes: [],
           };
           comment.replies.push(newReply);
           localStorage.setItem('posts', JSON.stringify(state.posts));
@@ -145,6 +146,21 @@ const authSlice = createSlice({
       }
     },
 
+    likeReply: (state, action) => {
+      const { commentId,postId, userId,replyId } = action.payload;
+      const post = state.posts.find(post => post.postId === postId);
+      const comment = post.comments.find(comment => comment.commentId === commentId);
+      const reply = comment.replies.find(reply => reply.replyId === replyId);
+      if (reply) {
+        const alreadyLiked = reply.likes.includes(userId);
+        if (!alreadyLiked) {
+          reply.likes.push(userId); // like
+        } else {
+          reply.likes = reply.likes.filter(id => id !== userId); // toggole like
+        }
+        localStorage.setItem('posts', JSON.stringify(state.posts));
+      }
+    },
     loadPosts: (state) => {
       const posts = JSON.parse(localStorage.getItem('posts'));
       if (posts) {
@@ -164,5 +180,6 @@ export const {   register,
   addComment,
   likeComment,
   addReply,
+  likeReply,
   loadPosts, } = authSlice.actions;
 export default authSlice.reducer;

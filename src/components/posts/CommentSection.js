@@ -1,6 +1,11 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { addComment, addReply, likeComment } from "../../store/authSlice";
+import {
+  addComment,
+  addReply,
+  likeComment,
+  likeReply,
+} from "../../store/authSlice";
 import { current } from "@reduxjs/toolkit";
 
 const CommentSection = ({ currentUser, postId, comments }) => {
@@ -11,9 +16,9 @@ const CommentSection = ({ currentUser, postId, comments }) => {
   const [showAllComments, setShowAllComments] = useState(false);
 
   const handleSubmitComment = (e) => {
-    if (e.key === "Enter" && !e.shiftKey && commentText.length>0) {
+    if (e.key === "Enter" && !e.shiftKey && commentText.length > 0) {
       e.preventDefault();
-    console.log("commentText", commentText,commentText.length);
+      console.log("commentText", commentText, commentText.length);
       dispatch(addComment({ userId, postId, commentText }));
       //console.log(userId,postId,commentText);
       setCommentText("");
@@ -39,7 +44,9 @@ const CommentSection = ({ currentUser, postId, comments }) => {
                   placeholder="Write a comment"
                   id="floatingTextarea1"
                   value={commentText}
-                  onChange={(e) => setCommentText(e.target.value.trim())}
+                  onChange={(e) =>
+                    setCommentText(e.target.value.replace(/^\s+/, ""))
+                  }
                   onKeyDown={handleSubmitComment}
                 ></textarea>
               </div>
@@ -112,6 +119,7 @@ function Comment({ comment, currentUser, postId }) {
   const users = useSelector((state) => state.auth.users);
   const isLiked = comment.likes.includes(currentUser.userId);
   const [isReplying, setIsReplying] = useState(false);
+  const [showAllReplies, setShowAllReplies] = useState(false);
   const dispatch = useDispatch();
   const user = users.find((user) => user.userId === comment.userId);
 
@@ -207,6 +215,51 @@ function Comment({ comment, currentUser, postId }) {
         </div>
         {/* this part for reply */}
 
+        {comment.replies.length > 1 ? (
+          <div
+            className="_previous_comment"
+            style={{ textAlign: "left" }}
+            onClick={() => setShowAllReplies(!showAllReplies)}
+          >
+            <button type="button" className="_previous_comment_txt">
+              {showAllReplies ? "Hide" : " View"} {comment.replies.length - 1} previous{" "}
+              {comment.replies.length > 2 ? "replies" : "reply"}
+              {showAllReplies ? " (show less) " : " (show more)"}
+            </button>
+          </div>
+        ) : null}
+
+        {comment.replies.length > 1 ? (
+          showAllReplies ? (
+            comment.replies.map((reply) => (
+              <Reply
+                key={reply.replyId}
+                reply={reply}
+                currentUser={currentUser}
+                commentId={comment.commentId}
+                postId={postId}
+              />
+            ))
+          ) : (
+            <Reply
+              key={comment.replies[comment.replies.length - 1].replyId}
+              reply={comment.replies[comment.replies.length - 1]}
+              currentUser={currentUser}
+              commentId={comment.commentId}
+              postId={postId}
+            />
+          )
+        ) : comment.replies.length === 1 ? (
+          <Reply
+            key={comment.replies[0].replyId}
+            reply={comment.replies[0]}
+            currentUser={currentUser}
+            commentId={comment.commentId}
+            postId={postId}
+          />
+        ) : null}
+
+
         {isReplying ? (
           <ReplySection
             currentUser={currentUser}
@@ -214,6 +267,95 @@ function Comment({ comment, currentUser, postId }) {
             comment={comment}
           />
         ) : null}
+      </div>
+    </div>
+  );
+}
+
+function Reply({ reply, currentUser, commentId, postId }) {
+  const replyLength = reply.length;
+  const users = useSelector((state) => state.auth.users);
+  const replyUser = users.find((user) => user.userId === reply.userId);
+  const dispatch = useDispatch();
+  const isLiked = reply.likes.includes(currentUser.userId);
+  function handleReplyLike() {
+    dispatch(
+      likeReply({
+        commentId,
+        postId,
+        userId: currentUser.userId,
+        replyId: reply.replyId,
+      })
+    );
+  }
+
+  return (
+    <div
+      style={{ display: "flex", flexDirection: "row", marginBottom: ".5rem" }}
+    >
+      <div className="_comment_image" style={{ marginRight: ".5rem" }}>
+        <a href="/" className="_comment_image_link">
+          <img
+            src={replyUser?.profilePicture}
+            alt="UserPhoto"
+            className="_comment_img1"
+          />
+        </a>
+      </div>
+      <div className="_feed_inner_comment_box" style={{ width: "80%" }}>
+        <div className="_comment_area" style={{ width: "100%" }}>
+          <div className="_comment_details" style={{ marginLeft: "-0.5rem" }}>
+            <div className="_comment_details_top" style={{ textAlign: "left" }}>
+              <div className="_comment_name">
+                <a href="/">
+                  <h4 className="_comment_name_title">{replyUser?.name}</h4>
+                </a>
+              </div>
+            </div>
+            <div className="_comment_status">
+              <p className="_comment_status_text" style={{ textAlign: "left" }}>
+                <span>{reply.replyText} </span>
+              </p>
+            </div>
+            <div className="_total_reactions">
+              <div className="_total_react">
+                <span className="_reaction_like">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="feather feather-thumbs-up"
+                  >
+                    <path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path>
+                  </svg>
+                </span>
+              </div>
+              <span className="_total">{reply.likes.length} </span>
+            </div>
+            <div className="_comment_reply">
+              <div className="_comment_reply_num">
+                <ul className="_comment_reply_list">
+                  <li onClick={() => handleReplyLike()}>
+                    {/* style={{ color: `${isLiked ? "blue" : "black"}` } */}
+                    <span>Like.</span>
+                  </li>
+                  <li>
+                    <span>Reply.</span>
+                  </li>
+                  <li>
+                    <span className="_time_link">.21m</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
@@ -256,7 +398,7 @@ function ReplySection({ currentUser, postId, comment }) {
               placeholder="Write a comment"
               id="floatingTextarea2"
               value={replyText}
-              onChange={(e) => setReplyText(e.target.value.trim())}
+              onChange={(e) => setReplyText(e.target.value.replace(/^\s+/, ""))}
               onKeyDown={handleSubmitCommentReply}
             ></textarea>
           </div>
