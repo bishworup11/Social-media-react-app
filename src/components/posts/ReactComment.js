@@ -53,7 +53,8 @@ const FeedInnerTimelineTotalReacts = ({ post }) => {
             <button className="close-button" onClick={closeModal} >
               X
             </button>
-            <h3>Users who liked this post:</h3>
+            <h3>Users who liked:</h3>
+      
             <ul>
               {post.likes.map((id, index) => {
                 const tempUser = users.find((user) => user.userId === id);

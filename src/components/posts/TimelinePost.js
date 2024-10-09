@@ -8,7 +8,7 @@ const TimelinePost = ({ post, userId }) => {
   const users = useSelector((state) => state.auth.users);
   const postUser = users.find((user) => user.userId === post.userId);
   const [isEdit, setIsEdit] = React.useState(false);
-  const [editText, setEditText] = React.useState(post.text);
+  const [editText, setEditText] = React.useState("");
   const dispatch = useDispatch();
 
   function handleShow() {
@@ -16,6 +16,7 @@ const TimelinePost = ({ post, userId }) => {
   }
   function handleEditShow() {
     setIsEdit(!isEdit);
+    setEditText(post.text);
     handleShow();
   }
   const handleSubmitEdit = (e) => {
