@@ -1,30 +1,36 @@
 import React from "react";
-import { useSelector } from "react-redux";
-const TimelinePost = ({post}) => {
-    const [show, setShow] = React.useState(false);
-    const time=Date.now();
-    let timeInerval=Math.round((time-post.postId)/(1000*60));
-   // console.log(timeInerval);
-    const users = useSelector((state) => state.auth.users);
-    //console.log(users);
-    const postUser = users.find((user) => user.userId === post.userId);
-   // console.log(postUser);
+import { useDispatch, useSelector } from "react-redux";
+import { hidePost,deletePost } from "../../store/authSlice";
+const TimelinePost = ({ post, userId }) => {
+  const [show, setShow] = React.useState(false);
+  const time = Date.now();
+  let timeInerval = Math.round((time - post.postId) / (1000 * 60));
+  // console.log(timeInerval);
+  const users = useSelector((state) => state.auth.users);
+  //console.log(users);
+  const postUser = users.find((user) => user.userId === post.userId);
+  // console.log(postUser);
+  function handleShow() {
+    setShow(!show);
+  }
 
   return (
     <div className="_feed_inner_timeline_content _padd_r24 _padd_l24 ">
       <div className="_feed_inner_timeline_post_top">
         <div className="_feed_inner_timeline_post_box">
           <div className="_feed_inner_timeline_post_box_image">
-            <img
-              src={postUser?.profilePicture}
-              alt=""
-              className="_post_img"
-            />
+            <img src={postUser?.profilePicture} alt="" className="_post_img" />
           </div>
-          <div className="_feed_inner_timeline_post_box_txt" style={{textAlign: "left"}}>
-            <h4 className="_feed_inner_timeline_post_box_title">{post.userName}</h4>
+          <div
+            className="_feed_inner_timeline_post_box_txt"
+            style={{ textAlign: "left" }}
+          >
+            <h4 className="_feed_inner_timeline_post_box_title">
+              {post.userName}
+            </h4>
             <p className="_feed_inner_timeline_post_box_para">
-              {timeInerval} minute ago . <a href="/">Public</a>
+              {timeInerval} minute ago .{" "}
+              <a href="/">{post.isShow ? "Public" : "Private"}</a>
             </p>
           </div>
         </div>
@@ -35,7 +41,6 @@ const TimelinePost = ({post}) => {
               id="_timeline_show_drop_btn"
               className="_feed_timeline_post_dropdown_link"
               onClick={() => setShow(!show)}
-
             >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -51,10 +56,7 @@ const TimelinePost = ({post}) => {
             </button>
           </div>
           {/*  there dropdown conditional rendaring */}
-          {
-            show? <Dropdown/>:null
-          }
-           
+          {show ? <Dropdown post={post} userId={userId} handleShow={handleShow} /> : null}
         </div>
       </div>
       <h4
@@ -76,12 +78,28 @@ const TimelinePost = ({post}) => {
 
 export default TimelinePost;
 
-function Dropdown() {
+function Dropdown({ post, userId ,handleShow}) {
+  //console.log(post.userId,userId);
+  const dispatch = useDispatch();
+  function handleHidePost() {
+    dispatch(hidePost({ postId: post.postId }));
+    handleShow();
+  }
+  function handleDeletePost() {
+    if (window.confirm("Are you sure you want to delete this post?")) {
+      dispatch(deletePost({ postId: post.postId }));
+      handleShow();
+    }
+  }
+
   return (
     <div id="_timeline_drop" className="_feed_timeline_dropdown show">
-      <ul className="_feed_timeline_dropdown_list">
+      <ul
+        className="_feed_timeline_dropdown_list"
+        style={{ textAlign: "left" }}
+      >
         <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link">
+          <a href="/" className="_feed_timeline_dropdown_link">
             <span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
@@ -123,79 +141,86 @@ function Dropdown() {
             Turn On Notification
           </a>
         </li>
-        <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="none"
-                viewBox="0 0 18 18"
-              >
-                <path
-                  stroke="#1890FF"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.2"
-                  d="M14.25 2.25H3.75a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V3.75a1.5 1.5 0 00-1.5-1.5zM6.75 6.75l4.5 4.5M11.25 6.75l-4.5 4.5"
-                />
-              </svg>
-            </span>
-            Hide
-          </a>
-        </li>
-        <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="none"
-                viewBox="0 0 18 18"
-              >
-                <path
-                  stroke="#1890FF"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.2"
-                  d="M8.25 3H3a1.5 1.5 0 00-1.5 1.5V15A1.5 1.5 0 003 16.5h10.5A1.5 1.5 0 0015 15V9.75"
-                />
-                <path
-                  stroke="#1890FF"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.2"
-                  d="M13.875 1.875a1.591 1.591 0 112.25 2.25L9 11.25 6 12l.75-3 7.125-7.125z"
-                />
-              </svg>
-            </span>
-            Edit Post
-          </a>
-        </li>
-        <li className="_feed_timeline_dropdown_item">
-          <a href="#0" className="_feed_timeline_dropdown_link">
-            <span>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="18"
-                height="18"
-                fill="none"
-                viewBox="0 0 18 18"
-              >
-                <path
-                  stroke="#1890FF"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.2"
-                  d="M2.25 4.5h13.5M6 4.5V3a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0112 3v1.5m2.25 0V15a1.5 1.5 0 01-1.5 1.5h-7.5a1.5 1.5 0 01-1.5-1.5V4.5h10.5zM7.5 8.25v4.5M10.5 8.25v4.5"
-                />
-              </svg>
-            </span>
-            Delete Post
-          </a>
-        </li>
+        {post.userId === userId ? (
+          <>
+            <li
+              className="_feed_timeline_dropdown_item"
+              onClick={() => handleHidePost()}
+            >
+              <a href="#0" className="_feed_timeline_dropdown_link">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    viewBox="0 0 18 18"
+                  >
+                    <path
+                      stroke="#1890FF"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.2"
+                      d="M14.25 2.25H3.75a1.5 1.5 0 00-1.5 1.5v10.5a1.5 1.5 0 001.5 1.5h10.5a1.5 1.5 0 001.5-1.5V3.75a1.5 1.5 0 00-1.5-1.5zM6.75 6.75l4.5 4.5M11.25 6.75l-4.5 4.5"
+                    />
+                  </svg>
+                </span>
+                {post.isShow ? "Hide Post" : "show Post"}
+              </a>
+            </li>
+            <li className="_feed_timeline_dropdown_item">
+              <a href="#0" className="_feed_timeline_dropdown_link">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    viewBox="0 0 18 18"
+                  >
+                    <path
+                      stroke="#1890FF"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.2"
+                      d="M8.25 3H3a1.5 1.5 0 00-1.5 1.5V15A1.5 1.5 0 003 16.5h10.5A1.5 1.5 0 0015 15V9.75"
+                    />
+                    <path
+                      stroke="#1890FF"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.2"
+                      d="M13.875 1.875a1.591 1.591 0 112.25 2.25L9 11.25 6 12l.75-3 7.125-7.125z"
+                    />
+                  </svg>
+                </span>
+                Edit Post
+              </a>
+            </li>
+            <li className="_feed_timeline_dropdown_item" onClick={()=>handleDeletePost()}>
+              <a href="#0" className="_feed_timeline_dropdown_link">
+                <span>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="18"
+                    height="18"
+                    fill="none"
+                    viewBox="0 0 18 18"
+                  >
+                    <path
+                      stroke="#1890FF"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.2"
+                      d="M2.25 4.5h13.5M6 4.5V3a1.5 1.5 0 011.5-1.5h3A1.5 1.5 0 0112 3v1.5m2.25 0V15a1.5 1.5 0 01-1.5 1.5h-7.5a1.5 1.5 0 01-1.5-1.5V4.5h10.5zM7.5 8.25v4.5M10.5 8.25v4.5"
+                    />
+                  </svg>
+                </span>
+                Delete Post
+              </a>
+            </li>
+          </>
+        ) : null}
       </ul>
     </div>
   );

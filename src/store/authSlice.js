@@ -84,6 +84,25 @@ const authSlice = createSlice({
       localStorage.setItem('posts', JSON.stringify(state.posts));
     },
 
+    hidePost: (state, action) => {
+      const { postId } = action.payload;
+      const post = state.posts.find(post => post.postId === postId);
+      if (post) {
+         post.isShow = !post.isShow;
+        localStorage.setItem('posts', JSON.stringify(state.posts));
+      }
+    },
+
+    deletePost: (state, action) => {
+      const { postId } = action.payload;
+      const post = state.posts.find(post => post.postId === postId);
+      if (post) {
+        state.posts = state.posts.filter(post => post.postId !== postId);
+        localStorage.setItem('posts', JSON.stringify(state.posts));
+      }
+    },
+
+
     likePost: (state, action) => {
       const { postId, userId } = action.payload;
       const post = state.posts.find(post => post.postId === postId);
@@ -176,6 +195,8 @@ export const {   register,
   logout,
   loadUsers,
   addPost,
+  hidePost,
+  deletePost,
   likePost,
   addComment,
   likeComment,

@@ -343,7 +343,7 @@ function Reply({ reply, currentUser, commentId, postId }) {
                 <ul className="_comment_reply_list">
                   <li onClick={() => handleReplyLike()}>
                     {/* style={{ color: `${isLiked ? "blue" : "black"}` } */}
-                    <span>Like.</span>
+                    <span style={{ color: `${isLiked ? "blue" : "black"}` }}>Like.</span>
                   </li>
                   <li>
                     <span>Reply.</span>

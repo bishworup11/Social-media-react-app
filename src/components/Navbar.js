@@ -4,7 +4,7 @@ import { logout } from "../store/authSlice";
 
 const Navbar = ({darkMode,setDarkMode}) => {
   const [isDropShow, setIsDropShow] = useState(false);
-  const profilePicture = useSelector((state) => state.auth.currentUser.profilePicture);
+  const currentUser = useSelector((state) => state.auth.currentUser);
   //console.log(profilePicture);
 
   const toggleDarkMode = () => {
@@ -212,14 +212,14 @@ const Navbar = ({darkMode,setDarkMode}) => {
               <div className="_header_nav_profile_image">
                 <img
                   // src="assets/images/profile.png"
-                  src={profilePicture}
+                  src={currentUser.profilePicture}
                   alt="Image"
                   className="_nav_profile_img"
                   // style={{borderRadius: "40%"}}
                 />
               </div>
               <div className="_header_nav_dropdown">
-                <p className="_header_nav_para">Dylan Field</p>
+                <p className="_header_nav_para">{currentUser.name}</p>
                 <button
                   id="_profile_drop_show_btn"
                   className="_header_nav_dropdown_btn _dropdown_toggle"
@@ -242,7 +242,7 @@ const Navbar = ({darkMode,setDarkMode}) => {
               </div>
               {/* dropdown */}
               {
-                isDropShow?  <Dropdown profilePicture={profilePicture}/>:null
+                isDropShow?  <Dropdown currentUser={currentUser}/>:null
               }
              
               
@@ -258,7 +258,7 @@ export default Navbar;
 
 
 
- function Dropdown({profilePicture}) {
+ function Dropdown({currentUser}) {
   const dispatch=useDispatch();
   return (
         <div id="_prfoile_drop" className="_nav_profile_dropdown show">
@@ -266,14 +266,14 @@ export default Navbar;
                   <div className="_nav_profile_dropdown_image">
                     <img
                       // src="assets/images/profile.png"
-                      src={profilePicture}
+                      src={currentUser.profilePicture}
                       alt="Image"
                       className="_nav_drop_img"
                       
                     />
                   </div>
                   <div className="_nav_profile_dropdown_info_txt">
-                    <h4 className="_nav_dropdown_title">Dylan Field</h4>
+                    <h4 className="_nav_dropdown_title">{currentUser.name}</h4>
                     <a href="/" className="_nav_drop_profile">
                       View Profile
                     </a>
