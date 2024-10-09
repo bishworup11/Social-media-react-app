@@ -101,6 +101,14 @@ const authSlice = createSlice({
         localStorage.setItem('posts', JSON.stringify(state.posts));
       }
     },
+    editPost: (state, action) => {
+      const { postId,text } = action.payload;
+      const post = state.posts.find(post => post.postId === postId);
+      if (post) {
+        post.text = text;
+        localStorage.setItem('posts', JSON.stringify(state.posts));
+      }
+    },
 
 
     likePost: (state, action) => {
@@ -196,6 +204,7 @@ export const {   register,
   loadUsers,
   addPost,
   hidePost,
+  editPost,
   deletePost,
   likePost,
   addComment,

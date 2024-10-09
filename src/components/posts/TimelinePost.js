@@ -1,18 +1,31 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hidePost,deletePost } from "../../store/authSlice";
+import { hidePost, deletePost,editPost } from "../../store/authSlice";
 const TimelinePost = ({ post, userId }) => {
   const [show, setShow] = React.useState(false);
   const time = Date.now();
   let timeInerval = Math.round((time - post.postId) / (1000 * 60));
-  // console.log(timeInerval);
   const users = useSelector((state) => state.auth.users);
-  //console.log(users);
   const postUser = users.find((user) => user.userId === post.userId);
-  // console.log(postUser);
+  const [isEdit, setIsEdit] = React.useState(false);
+  const [editText, setEditText] = React.useState(post.text);
+  const dispatch = useDispatch();
+
   function handleShow() {
     setShow(!show);
   }
+  function handleEditShow() {
+    setIsEdit(!isEdit);
+    handleShow();
+  }
+  const handleSubmitEdit = (e) => {
+    if (e.key === "Enter" && !e.shiftKey && editText.length > 0) {
+      e.preventDefault();
+      dispatch(editPost({ postId: post.postId, text: editText }));
+      setIsEdit(false);
+       
+    }
+  };
 
   return (
     <div className="_feed_inner_timeline_content _padd_r24 _padd_l24 ">
@@ -56,15 +69,34 @@ const TimelinePost = ({ post, userId }) => {
             </button>
           </div>
           {/*  there dropdown conditional rendaring */}
-          {show ? <Dropdown post={post} userId={userId} handleShow={handleShow} /> : null}
+          {show ? (
+            <Dropdown
+              post={post}
+              userId={userId}
+              handleShow={handleShow}
+              handleEditShow={handleEditShow}
+            />
+          ) : null}
         </div>
       </div>
-      <h4
-        className="_feed_inner_timeline_post_title"
-        style={{ textAlign: "left" }}
-      >
-        {post.text}
-      </h4>
+      {isEdit ? (
+        <input
+          className="_feed_inner_timeline_post_title"
+          style={{ textAlign: "left", marginLeft: "-0.2rem", width: "95%" }}
+          type="text"
+          value={editText}
+          onChange={(e) => setEditText(e.target.value)}
+          onKeyDown={handleSubmitEdit}
+        />
+      ) : (
+        <h4
+          className="_feed_inner_timeline_post_title"
+          style={{ textAlign: "left" }}
+        >
+          {post.text}
+        </h4>
+      )}
+
       <div className="_feed_inner_timeline_image">
         <img
           src="assets/images/timeline_img.png"
@@ -78,7 +110,7 @@ const TimelinePost = ({ post, userId }) => {
 
 export default TimelinePost;
 
-function Dropdown({ post, userId ,handleShow}) {
+function Dropdown({ post, userId, handleShow, handleEditShow }) {
   //console.log(post.userId,userId);
   const dispatch = useDispatch();
   function handleHidePost() {
@@ -168,7 +200,10 @@ function Dropdown({ post, userId ,handleShow}) {
                 {post.isShow ? "Hide Post" : "show Post"}
               </a>
             </li>
-            <li className="_feed_timeline_dropdown_item">
+            <li
+              className="_feed_timeline_dropdown_item"
+              onClick={() =>( handleEditShow())}
+            >
               <a href="#0" className="_feed_timeline_dropdown_link">
                 <span>
                   <svg
@@ -197,7 +232,10 @@ function Dropdown({ post, userId ,handleShow}) {
                 Edit Post
               </a>
             </li>
-            <li className="_feed_timeline_dropdown_item" onClick={()=>handleDeletePost()}>
+            <li
+              className="_feed_timeline_dropdown_item"
+              onClick={() => handleDeletePost()}
+            >
               <a href="#0" className="_feed_timeline_dropdown_link">
                 <span>
                   <svg

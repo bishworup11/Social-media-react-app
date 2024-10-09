@@ -122,6 +122,8 @@ function Comment({ comment, currentUser, postId }) {
   const [showAllReplies, setShowAllReplies] = useState(false);
   const dispatch = useDispatch();
   const user = users.find((user) => user.userId === comment.userId);
+  const currenttime=Date.now();
+  let time=Math.round((currenttime-comment.commentId)/(1000*60));
 
   function handleCommentReact() {
     dispatch(
@@ -140,8 +142,8 @@ function Comment({ comment, currentUser, postId }) {
           <img src={user?.profilePicture} alt="" className="_comment_img1" />
         </a>
       </div>
-      <div className="_comment_area">
-        <div className="_comment_details">
+      <div className="_comment_area" >
+        <div className="_comment_details" >
           <div className="_comment_details_top" style={{ textAlign: "left" }}>
             <div className="_comment_name">
               <a href="/">
@@ -192,7 +194,7 @@ function Comment({ comment, currentUser, postId }) {
             </div>
             <span className="_total">{comment.likes.length}</span>
           </div>
-          <div className="_comment_reply">
+          <div className="_comment_reply" >
             <div className="_comment_reply_num">
               <ul className="_comment_reply_list">
                 <li onClick={() => handleCommentReact()}>
@@ -204,10 +206,11 @@ function Comment({ comment, currentUser, postId }) {
                   <span onClick={() => setIsReplying(!isReplying)}>Reply.</span>
                 </li>
                 <li>
-                  <span>Share</span>
+                  <span>{time}</span>
                 </li>
                 <li>
-                  <span className="_time_link">.21m</span>
+                  
+                  <span className="_time_link"> {time<2? "min": "mins"}</span>
                 </li>
               </ul>
             </div>
