@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { hidePost, deletePost, editPost } from "../../store/authSlice";
+import { hidePost, deletePost, editPost } from "../../store/postSlice";
 import { IoEarthSharp } from "react-icons/io5";
 import { MdLockPerson } from "react-icons/md";
 const TimelinePost = ({ post, userId }) => {

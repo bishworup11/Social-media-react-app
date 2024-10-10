@@ -21,7 +21,7 @@ const Navbar = ({darkMode,setDarkMode}) => {
     <nav className="navbar navbar-expand-lg navbar-light _header_nav _header_nav_shadow _padd_t10">
       <div className="_nav_custom_container">
         <div className="_logo_wrap">
-          <a className="navbar-brand" href="feed2.html">
+          <a className="navbar-brand" href="/">
             <img
               src="assets/images/logo.svg"
               alt="Image"
@@ -274,7 +274,7 @@ export default Navbar;
                   </div>
                   <div className="_nav_profile_dropdown_info_txt" style={{textAlign:"left"}}>
                     <h4 className="_nav_dropdown_title">{currentUser.name}</h4>
-                    <a href="/" className="_nav_drop_profile">
+                    <a href="/profile" className="_nav_drop_profile">
                       View Profile
                     </a>
                   </div>

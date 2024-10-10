@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { addPost } from "../store/authSlice";
+import { addPost } from "../store/postSlice";
 
 const FeedComponent = () => {
   const [postText, setPostText] = useState("");

@@ -5,7 +5,7 @@ import {
   addReply,
   likeComment,
   likeReply,
-} from "../../store/authSlice";
+} from "../../store/postSlice";
 import ModalLikes from "./ModalLikes";
 
 const CommentSection = ({ currentUser, postId, comments }) => {

@@ -1,7 +1,7 @@
 import React from "react";
 import { AiFillLike } from "react-icons/ai";
 import { useDispatch } from "react-redux";
-import { likePost } from "../../store/authSlice";
+import { likePost } from "../../store/postSlice";
 import { useState } from "react";
 import ModalLikes from "./ModalLikes";
 export default function ReactComment({ children }) {
