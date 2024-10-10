@@ -9,14 +9,14 @@ Access the live application here: [Your Live Link Here](https://social-media-rea
 ---
 
 ## Table of Contents
-
 1. [Features](#features)
 2. [Installation](#installation)
 3. [Project Structure](#project-structure)
 4. [Feature Details](#feature-details)
-5. [Usage](#usage)
-6. [Contributing](#contributing)
-7. [License](#license)
+5. [Sample Data (Default Users)](#sample-data-default-users)
+6. [Usage](#usage)
+7. [Contributing](#contributing)
+8. [License](#license)
 
 ---
 
@@ -120,6 +120,37 @@ src/
 - All data (users, posts, likes, comments, and replies) is stored in **local storage**.
 - This ensures that the user’s data persists between sessions, even if they refresh or close the browser.
 
+
+## Sample Data (Default Users)
+
+This sample data illustrates the structure used for user accounts within the application. Each user has a unique `userId`, `profilePicture`, `name`, `email`, and `password`. Currently, there are no posts available. Please create a post, along with likes, comments, and replies, and then log in with another account to interact with these features.
+
+```json
+[
+  {
+      "userId": 1728561504672,
+      "profilePicture": "assets/images/img17.png",
+      "name": "Alice",
+      "email": "a@gmail.com",
+      "password": "a@gmail.com"
+  },
+  {
+      "userId": 1728561542993,
+      "profilePicture": "assets/images/img4.png",
+      "name": "Bob",
+      "email": "bob@gmail.com",
+      "password": "bob@gmail.com"
+  },
+  {
+      "userId": 1728561631801,
+      "profilePicture": "assets/images/img13.png",
+      "name": "Cora",
+      "email": "c@gmail.com",
+      "password": "c@gmail.com"
+  }
+]
+```
+
 ## Usage
 
 ### Accessing Core Features
@@ -151,3 +182,5 @@ src/
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
+
+

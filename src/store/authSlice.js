@@ -3,7 +3,29 @@ import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
   currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
-  users: JSON.parse(localStorage.getItem('users')) || [],
+  users: JSON.parse(localStorage.getItem('users')) || [
+    {
+        "userId": 1728561504672,
+        "profilePicture": "assets/images/img17.png",
+        "name": "Alice",
+        "email": "a@gmail.com",
+        "password": "a@gmail.com"
+    },
+    {
+        "userId": 1728561542993,
+        "profilePicture": "assets/images/img4.png",
+        "name": "Bob",
+        "email": "bob@gmail.com",
+        "password": "bob@gmail.com"
+    },
+    {
+        "userId": 1728561631801,
+        "profilePicture": "assets/images/img13.png",
+        "name": "Cora",
+        "email": "c@gmail.com",
+        "password": "c@gmail.com"
+    }
+  ],
 };
 
 const authSlice = createSlice({
