@@ -1,6 +1,8 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { hidePost, deletePost, editPost } from "../../store/authSlice";
+import { IoEarthSharp } from "react-icons/io5";
+import { MdLockPerson } from "react-icons/md";
 const TimelinePost = ({ post, userId }) => {
   const [show, setShow] = React.useState(false);
   const time = Date.now();
@@ -52,7 +54,7 @@ const TimelinePost = ({ post, userId }) => {
                     timeInterval > 1 ? "minutes" : "minute"
                   } ago `}
 
-              <a href="/">{post.isShow ? "Public" : "Private"}</a>
+              <span >{post.isShow ? <> Public <IoEarthSharp /></> :  <> Private <MdLockPerson /></>}</span>
             </p>
           </div>
         </div>

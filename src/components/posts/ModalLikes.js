@@ -1,7 +1,9 @@
+
 import React from "react";
-
-export default function modal({openModal,closeModal}) {
-
+import { useSelector } from "react-redux";
+export default function ModalLikes({likes,closeModal}) {
+    const users = useSelector((state) => state.auth.users);
+    //console.log(likes);
     const handleClickOutside = (e) => {
         if (e.target.className === "modal-overlay") {
           closeModal();
@@ -17,13 +19,14 @@ export default function modal({openModal,closeModal}) {
         <h3>Users who liked:</h3>
 
         <div className="_feed_right_inner_area_card  _padd_t24  _padd_b6 _padd_r24 _padd_l24 _b_radious6 _feed_inner_area">
-          {post.likes.map((id, index) => {
+          {likes.map((id, index) => {
             const tempUser = users.find((user) => user.userId === id);
-            console.log(users, id);
+           // console.log(users, id);
             return (
               <div
                 className="_feed_right_inner_area_card_ppl_box"
                 style={{ marginBottom: "1rem" }}
+                key={id}
               >
                 <div className="_feed_right_inner_area_card_ppl_image">
                   <a href="profile.html">

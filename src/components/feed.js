@@ -35,7 +35,7 @@ export default function Feed() {
                 {
                   sortedPosts.map((post)=>{
                    
-                    return <Post key={post.id} post={post} />
+                    return <Post key={post.postId} post={post} />
                   })
                 }
               </div>

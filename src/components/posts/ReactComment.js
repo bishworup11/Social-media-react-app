@@ -1,15 +1,15 @@
 import React from "react";
 import { AiFillLike } from "react-icons/ai";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { likePost } from "../../store/authSlice";
 import { useState } from "react";
+import ModalLikes from "./ModalLikes";
 export default function ReactComment({ children }) {
   return <>{children}</>;
 }
 
 const FeedInnerTimelineTotalReacts = ({ post }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const users = useSelector((state) => state.auth.users);
 
   const openModal = () => {
     if (post.likes.length > 0) setIsModalOpen(true);
@@ -17,12 +17,6 @@ const FeedInnerTimelineTotalReacts = ({ post }) => {
 
   const closeModal = () => {
     setIsModalOpen(false);
-  };
-
-  const handleClickOutside = (e) => {
-    if (e.target.className === "modal-overlay") {
-      closeModal();
-    }
   };
 
   return (
@@ -47,44 +41,10 @@ const FeedInnerTimelineTotalReacts = ({ post }) => {
       </div>
 
       {isModalOpen && (
-        <div className="modal-overlay" onClick={handleClickOutside}>
-          <div className="modal-content">
-            <button className="close-button" onClick={closeModal}>
-              X
-            </button>
-            <h3>Users who liked:</h3>
-
-            <div className="_feed_right_inner_area_card  _padd_t24  _padd_b6 _padd_r24 _padd_l24 _b_radious6 _feed_inner_area">
-              {post.likes.map((id, index) => {
-                const tempUser = users.find((user) => user.userId === id);
-                console.log(users, id);
-                return (
-                  <div
-                    className="_feed_right_inner_area_card_ppl_box"
-                    style={{ marginBottom: "1rem" }}
-                  >
-                    <div className="_feed_right_inner_area_card_ppl_image">
-                      <a href="profile.html">
-                        <img
-                          src={tempUser.profilePicture}
-                          alt=""
-                          className="_box_ppl_img"
-                        />
-                      </a>
-                    </div>
-                    <div className="_feed_right_inner_area_card_ppl_txt">
-                      <a href="profile.html">
-                        <h4 className="_feed_right_inner_area_card_ppl_title _text1">
-                          {tempUser.name}
-                        </h4>
-                      </a>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
-          </div>
-        </div>
+        <ModalLikes
+          likes={post.likes}
+          closeModal={closeModal}
+        />
       )}
     </div>
   );
