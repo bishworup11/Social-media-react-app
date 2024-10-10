@@ -12,8 +12,7 @@ const FeedInnerTimelineTotalReacts = ({ post }) => {
   const users = useSelector((state) => state.auth.users);
 
   const openModal = () => {
-    if(post.likes.length > 0) 
-    setIsModalOpen(true);
+    if (post.likes.length > 0) setIsModalOpen(true);
   };
 
   const closeModal = () => {
@@ -47,34 +46,43 @@ const FeedInnerTimelineTotalReacts = ({ post }) => {
         </p>
       </div>
 
-      {isModalOpen &&  (
+      {isModalOpen && (
         <div className="modal-overlay" onClick={handleClickOutside}>
           <div className="modal-content">
-            <button className="close-button" onClick={closeModal} >
+            <button className="close-button" onClick={closeModal}>
               X
             </button>
             <h3>Users who liked:</h3>
-      
-            <ul>
+
+            <div className="_feed_right_inner_area_card  _padd_t24  _padd_b6 _padd_r24 _padd_l24 _b_radious6 _feed_inner_area">
               {post.likes.map((id, index) => {
                 const tempUser = users.find((user) => user.userId === id);
-                console.log(users,id);
-                return <li key={index} style={{ display: "flex", alignItems: "center", marginBottom: "8px" }}>
-                <img
-                  src={tempUser?.profilePicture}
-                  style={{
-                    width: "30px",
-                    height: "30px",
-                    borderRadius: "50%",
-                    marginRight: "8px", // Space between the image and the text
-                  }}
-                  alt="profile picture"
-                />
-                {tempUser?.name}
-              </li>
-              
+                console.log(users, id);
+                return (
+                  <div
+                    className="_feed_right_inner_area_card_ppl_box"
+                    style={{ marginBottom: "1rem" }}
+                  >
+                    <div className="_feed_right_inner_area_card_ppl_image">
+                      <a href="profile.html">
+                        <img
+                          src={tempUser.profilePicture}
+                          alt=""
+                          className="_box_ppl_img"
+                        />
+                      </a>
+                    </div>
+                    <div className="_feed_right_inner_area_card_ppl_txt">
+                      <a href="profile.html">
+                        <h4 className="_feed_right_inner_area_card_ppl_title _text1">
+                          {tempUser.name}
+                        </h4>
+                      </a>
+                    </div>
+                  </div>
+                );
               })}
-            </ul>
+            </div>
           </div>
         </div>
       )}
