@@ -9,7 +9,7 @@ import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Feed from "./components/Feed";
 import "./App.css";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
 
 function App() {
