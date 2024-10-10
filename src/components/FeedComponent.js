@@ -30,7 +30,7 @@ const FeedComponent = () => {
       <div className="_feed_inner_text_area_box">
         <div className="_feed_inner_text_area_box_image">
           {/* <img src="assets/images/txt_img.png" alt="Image" className="_txt_img" /> */}
-          <img src={auth.profilePicture} alt="Image" className="_txt_img" />
+          <img src={auth.profilePicture} alt="User ProfilePicture" className="_txt_img" />
         </div>
         <div className="form-floating _feed_inner_text_area_box_form ">
           <textarea

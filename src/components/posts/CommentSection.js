@@ -315,7 +315,6 @@ function Comment({ comment, currentUser, postId }) {
 }
 
 function Reply({ reply, currentUser, commentId, postId }) {
-  const replyLength = reply.length;
   const users = useSelector((state) => state.auth.users);
   const replyUser = users.find((user) => user.userId === reply.userId);
   const dispatch = useDispatch();

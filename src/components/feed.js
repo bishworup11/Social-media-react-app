@@ -1,4 +1,4 @@
-import React, {  useEffect,useState } from 'react';
+import React, {  useEffect } from 'react';
 import LeftSidebar from "./LeftSidebar";
 import RightSidebar from "./RightSidebar";
 import StoryCard from "./StoryCard";
@@ -14,7 +14,7 @@ export default function Feed() {
   const currentUser=useSelector((state) => state.auth.currentUser);
   let sortedPosts = [...posts].sort((a, b) => b.postId - a.postId);
   sortedPosts = sortedPosts.filter((post) =>( post.isShow===true || currentUser.userId===post.userId) );
-  //console.log(sortedPosts,currentUser.userId);
+
   useEffect(() => {
     dispatch(loadUsers());
    
