@@ -19,7 +19,7 @@ export default function Profiles() {
     <div class="_profile_wrapper" style={{height: "auto"}}>
       <div class="_profile_wrap">
         <div class="container">
-          <ProfileBanner />
+          <ProfileBanner currentUser={currentUser} />
           <div class="_layout_inner_wrap_area">
             <div class="row">
               <LeftSider />

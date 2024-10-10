@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function ProfileBanner() {
+export default function ProfileBanner({currentUser}) {
   return (
     <div className="_profile_container_top">
   <div className="_profile_container_top_inner">
@@ -16,14 +16,14 @@ export default function ProfileBanner() {
         <div className="_profile_card">
           <div className="_profile_card_pro_pic ">
             <img
-              src="assets/images/profile-1.png"
+              src={currentUser.profilePicture}
               alt=""
               title=""
               className="_profile_card_pro_img"
             />
           </div>
           <div className="_profile_card_info">
-            <h4 className="_profile_card_info_title">Karim Saif</h4>
+            <h4 className="_profile_card_info_title">{currentUser.name}</h4>
             <p className="_profile_card_info_para">UI/UX Designer</p>
           </div>
           <div className="_profile_card_progress">
