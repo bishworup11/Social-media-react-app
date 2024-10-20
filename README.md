@@ -2,7 +2,7 @@
 
 ## Project Overview
 
-This project is a social media application built with React, enabling users to create and manage posts, interact with others through comments and replies, and explore various features related to liking and privacy settings. The application aims to provide a seamless user experience for sharing content, communicating, and managing privacy preferences. In this project, I began with a pre-designed HTML and CSS layout. I broke the design into smaller components and converted each one into React components while adding functionality. For the database, I used a local setup to store user information, the current user, and posts
+This project is a social media application built with React, enabling users to create and manage posts, interact with others through comments and replies, and explore various features related to liking , who likes and like comments count. In this project, I began with a pre-designed HTML and CSS layout. I broke the design into smaller components and converted each one into React components while adding functionality. For the database, I used a local setup to store user information, the current user, and posts
 
 Access the live application here: [Live Link Here](https://social-media-react-app-eight.vercel.app).
 
