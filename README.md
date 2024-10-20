@@ -2,9 +2,9 @@
 
 ## Project Overview
 
-This project is a social media application built with React, enabling users to create and manage posts, interact with others through comments and replies, and explore various features related to liking and privacy settings. The application aims to provide a seamless user experience for sharing content, communicating, and managing privacy preferences.
+This project is a social media application built with React, enabling users to create and manage posts, interact with others through comments and replies, and explore various features related to liking and privacy settings. The application aims to provide a seamless user experience for sharing content, communicating, and managing privacy preferences. In this project, I began with a pre-designed HTML and CSS layout. I broke the design into smaller components and converted each one into React components while adding functionality. For the database, I used a local setup to store user information, the current user, and posts
 
-Access the live application here: [Your Live Link Here](https://social-media-react-app-eight.vercel.app).
+Access the live application here: [Live Link Here](https://social-media-react-app-eight.vercel.app).
 
 ---
 
@@ -126,29 +126,37 @@ src/
 This sample data illustrates the structure used for user accounts within the application. Each user has a unique `userId`, `profilePicture`, `name`, `email`, and `password`. Currently, there are no posts available. Please create a post, along with likes, comments, and replies, and then log in with another account to interact with these features.
 
 ```json
-[
-  {
-      "userId": 1728561504672,
-      "profilePicture": "assets/images/img17.png",
-      "name": "Alice",
-      "email": "a@gmail.com",
-      "password": "a@gmail.com"
+ [
+    {
+      "userId": 1728561542994,
+      "profilePicture": "assets/images/img11.png",
+      "name": "Bishworup Mollik",
+      "email": "b@gmail.com",
+      "password": "b@gmail.com"
   },
-  {
+    {
+        "userId": 1728561504672,
+        "profilePicture": "assets/images/img17.png",
+        "name": "Alice",
+        "email": "a@gmail.com",
+        "password": "a@gmail.com"
+    },
+   
+    {
       "userId": 1728561542993,
       "profilePicture": "assets/images/img4.png",
       "name": "Bob",
-      "email": "bob@gmail.com",
-      "password": "bob@gmail.com"
+      "email": "bb@gmail.com",
+      "password": "bb@gmail.com"
   },
-  {
-      "userId": 1728561631801,
-      "profilePicture": "assets/images/img13.png",
-      "name": "Cora",
-      "email": "c@gmail.com",
-      "password": "c@gmail.com"
-  }
-]
+    {
+        "userId": 1728561631801,
+        "profilePicture": "assets/images/img13.png",
+        "name": "Cora",
+        "email": "c@gmail.com",
+        "password": "c@gmail.com"
+    }
+  ]
 ```
 
 ## Usage

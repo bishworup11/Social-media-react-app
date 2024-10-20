@@ -210,13 +210,16 @@ const Navbar = ({darkMode,setDarkMode}) => {
             </div>
             <div className="_header_nav_profile">
               <div className="_header_nav_profile_image">
-                <img
-                  // src="assets/images/profile.png"
+               <a href="/profile">
+
+               <img
+                  
                   src={currentUser.profilePicture}
-                  alt="Image"
+                  alt="Nav_profile_img"
                   className="_nav_profile_img"
                   // style={{borderRadius: "40%"}}
                 />
+               </a>
               </div>
               <div className="_header_nav_dropdown">
                 <p className="_header_nav_para">{currentUser.name}</p>
@@ -240,7 +243,7 @@ const Navbar = ({darkMode,setDarkMode}) => {
                   </svg>
                 </button>
               </div>
-              {/* dropdown */}
+              
               {
                 isDropShow?  <Dropdown currentUser={currentUser}/>:null
               }

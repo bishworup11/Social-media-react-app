@@ -2,21 +2,18 @@ import {
   BrowserRouter as Router,
   Route,
   Routes,
-  Navigate,
 } from "react-router-dom";
 import { useState } from "react";
 import Registration from "./components/Registration";
 import Login from "./components/Login";
 import Feed from "./components/Feed";
 import "./App.css";
-import { useSelector } from "react-redux";
 import Navbar from "./components/Navbar";
 import Profiles from "./components/profile/Profiles";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const auth = useSelector((state) => state.auth.currentUser);
-  //console.log(auth);
 
   return (
     <Router>
@@ -25,37 +22,33 @@ function App() {
           darkMode ? "_dark_wrapper" : ""
         }`}
       >
-        <div >
+        <div>
           <Routes>
             <Route path="/registration" element={<Registration />} />
             <Route
               path="/login"
-              element={auth ? <Navigate to="/" /> : <Login />}
+              element={<Login />}
             />
             <Route
               path="/"
               element={
-                auth ? (
+                <ProtectedRoute>
                   <>
                     <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
                     <Feed />
                   </>
-                ) : (
-                  <Navigate to="/login" />
-                )
+                </ProtectedRoute>
               }
             />
             <Route
               path="/profile"
               element={
-                auth ? (
+                <ProtectedRoute>
                   <>
                     <Navbar darkMode={darkMode} setDarkMode={setDarkMode} />
                     <Profiles />
                   </>
-                ) : (
-                  <Navigate to="/login" />
-                )
+                </ProtectedRoute>
               }
             />
           </Routes>
@@ -66,5 +59,3 @@ function App() {
 }
 
 export default App;
-
-

@@ -1,12 +1,15 @@
-import React from "react";
+import React, { Component } from "react";
 import { AiFillLike } from "react-icons/ai";
 import { useDispatch } from "react-redux";
 import { likePost } from "../../store/postSlice";
 import { useState } from "react";
 import ModalLikes from "./ModalLikes";
+
 export default function ReactComment({ children }) {
   return <>{children}</>;
 }
+
+// First Component of two components
 
 const FeedInnerTimelineTotalReacts = ({ post }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -40,15 +43,12 @@ const FeedInnerTimelineTotalReacts = ({ post }) => {
         </p>
       </div>
 
-      {isModalOpen && (
-        <ModalLikes
-          likes={post.likes}
-          closeModal={closeModal}
-        />
-      )}
+      {isModalOpen && <ModalLikes likes={post.likes} closeModal={closeModal} />}
     </div>
   );
 };
+
+// Second  Component of two components
 
 const FeedInnerTimelineReaction = ({
   handleShowComment,

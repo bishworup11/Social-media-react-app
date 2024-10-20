@@ -5,19 +5,27 @@ const initialState = {
   currentUser: JSON.parse(localStorage.getItem('currentUser')) || null,
   users: JSON.parse(localStorage.getItem('users')) || [
     {
+      "userId": 1728561542994,
+      "profilePicture": "assets/images/img11.png",
+      "name": "Bishworup Mollik",
+      "email": "b@gmail.com",
+      "password": "b@gmail.com"
+  },
+    {
         "userId": 1728561504672,
         "profilePicture": "assets/images/img17.png",
         "name": "Alice",
         "email": "a@gmail.com",
         "password": "a@gmail.com"
     },
+   
     {
-        "userId": 1728561542993,
-        "profilePicture": "assets/images/img4.png",
-        "name": "Bob",
-        "email": "bob@gmail.com",
-        "password": "bob@gmail.com"
-    },
+      "userId": 1728561542993,
+      "profilePicture": "assets/images/img4.png",
+      "name": "Bob",
+      "email": "bb@gmail.com",
+      "password": "bb@gmail.com"
+  },
     {
         "userId": 1728561631801,
         "profilePicture": "assets/images/img13.png",
